@@ -18,7 +18,7 @@ obj_points = []  # 3d point in real world space
 img_points = []  # 2d points in image plane
 
 # Open the webcam
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 # Check if the webcam opened correctly
 if not cap.isOpened():

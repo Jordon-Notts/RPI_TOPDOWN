@@ -64,7 +64,7 @@ window_name = "Cube Pose Estimation"
 cv2.namedWindow(window_name)
 cv2.setMouseCallback(window_name, mouse_callback)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 if not cap.isOpened():
     print("Error: Could not open webcam.")
     exit()

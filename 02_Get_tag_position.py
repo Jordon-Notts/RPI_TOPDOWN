@@ -37,7 +37,7 @@ R_cam, _ = cv2.Rodrigues(rvec_cam)
 R_cam_inv = R_cam.T
 
 # ------------- Step 3: Define Marker Model & Global Axes (Trident) -------------
-marker_size = 100  # adjust as needed
+marker_size = 232  # adjust as needed
 
 # Marker model: centered at (0,0,0)
 marker_obj_points = np.array([
@@ -57,7 +57,8 @@ axes_points_world = np.array([
 
 
 # ------------- Step 4: Initialize Webcam & ArUco Detector -------------
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
+
 if not cap.isOpened():
     print("Error: Could not open webcam.")
     exit()
