@@ -97,6 +97,11 @@ if you are happpy with the set up, press s to save.
 
 # Run
 
+```bash
+
+bash Run_GPS_Server.sh 
+
+```
 
 Aruco markers can be downlaoded from https://chev.me/arucogen/
 
