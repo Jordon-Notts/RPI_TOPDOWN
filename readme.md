@@ -52,7 +52,7 @@ Then control-x to save and close.
 
 Then run the script.
 
-```python3
+```python
 
 python3 00_cal_cam_shape.py
 
@@ -66,7 +66,7 @@ if the computor you have has an in build webcam, and for this you are using an e
 
 line 21 00_cal_cam_shape.py
 
-```python3
+```python
 
 # Open the webcam
 cap = cv2.VideoCapture(2)
@@ -81,7 +81,7 @@ For this i used an external webcam and a tripod, a long usb cable and a cube. Th
 
 The cube has to have equal sides, in order to change the code for different size cube, change this line (Line 7).
 
-```python3 
+```python 
 
 # ----- CONFIGURATION -----
 # Known cube side length (for example, in mm)
@@ -97,11 +97,20 @@ if you are happpy with the set up, press s to save.
 
 # Run
 
+Downaload and print the markers from https://chev.me/arucogen/
+
+ensure the correct size of the markers are inputted into the script (line 7)
+
+```python
+
+marker_size = 232  # adjust as needed
+
+```
+
 ```bash
 
 bash Run_GPS_Server.sh 
 
 ```
 
-Aruco markers can be downlaoded from https://chev.me/arucogen/
 

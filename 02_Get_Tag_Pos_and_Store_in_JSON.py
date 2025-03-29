@@ -3,6 +3,9 @@ import numpy as np
 import json
 import math
 
+# ------------- Step 3: Define Marker Model & Global Axes (Trident) -------------
+marker_size = 232  # adjust as needed
+
 def rotationMatrixToEulerAngles(R):
     """
     Converts a rotation matrix to Euler angles (roll, pitch, yaw).
@@ -36,8 +39,7 @@ tvec_cam = np.array(pose_data["translation_vector"], dtype=np.float32)
 R_cam, _ = cv2.Rodrigues(rvec_cam)
 R_cam_inv = R_cam.T
 
-# ------------- Step 3: Define Marker Model & Global Axes (Trident) -------------
-marker_size = 232  # adjust as needed
+
 
 # Marker model: centered at (0,0,0)
 marker_obj_points = np.array([
