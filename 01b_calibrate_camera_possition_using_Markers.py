@@ -2,9 +2,22 @@ import cv2
 import numpy as np
 import json
 import os
-from datetime import datetime
 
+
+# Set the camera index (adjust as needed)
 camera_index = 2
+
+cap = cv2.VideoCapture(camera_index)
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1820)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
+# Optionally, force 4K resolution if supported:
+# cap.set(cv2.CAP_PROP_FRAME_WIDTH, 3840)
+# cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 2160)
 
 # ----- Load Camera Calibration Data -----
 with open('camera_calibration_data.json', 'r') as f:
@@ -26,13 +39,11 @@ aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 aruco_params = cv2.aruco.DetectorParameters()
 
 # ----- Setup Video Capture and Window -----
+# Create a full-screen window.
+window_name = "Calibration of camera position"
 
-cap = cv2.VideoCapture(camera_index)
-if not cap.isOpened():
-    print("Error: Could not open camera.")
-    exit()
-window_name = "Marker Mode Pose Estimation"
-cv2.namedWindow(window_name)
+cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 # Global variable for computed pose (rvec, tvec)
 computed_pose = None
@@ -98,6 +109,7 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 
     cv2.imshow(window_name, frame)
+
     key = cv2.waitKey(1) & 0xFF
 
     # Exit on Esc key.

@@ -3,6 +3,22 @@ import numpy as np
 import json
 import math
 
+# Set the camera index (adjust as needed)
+camera_index = 2
+
+cap = cv2.VideoCapture(camera_index)
+
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1820)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
+# Optionally, force 4K resolution if supported:
+# cap.set(cv2.CAP_PROP_FRAME_WIDTH, 3840)
+# cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 2160)
+
 # ------------- Step 3: Define Marker Model & Global Axes (Trident) -------------
 marker_size = 232  # adjust as needed
 
@@ -39,8 +55,6 @@ tvec_cam = np.array(pose_data["translation_vector"], dtype=np.float32)
 R_cam, _ = cv2.Rodrigues(rvec_cam)
 R_cam_inv = R_cam.T
 
-
-
 # Marker model: centered at (0,0,0)
 marker_obj_points = np.array([
     [-marker_size/2,  marker_size/2, 0],
@@ -58,16 +72,17 @@ axes_points_world = np.array([
 ], dtype=np.float32)
 
 # ------------- Step 4: Initialize Webcam & ArUco Detector -------------
-cap = cv2.VideoCapture(2)
-
-if not cap.isOpened():
-    print("Error: Could not open webcam.")
-    exit()
 
 aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 aruco_params = cv2.aruco.DetectorParameters()
 
 print("Starting marker detection. Press 'Esc' to exit.")
+
+# Create a full-screen window.
+window_name = "Finding tags"
+
+cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 # ------------- Step 5: Main Loop -------------
 while True:
@@ -151,7 +166,7 @@ while True:
     cv2.arrowedLine(frame, tuple(imgpts_axes[0]), tuple(imgpts_axes[3]), (255, 0, 0), 2)
     cv2.circle(frame, tuple(imgpts_axes[0]), 3, (0, 0, 0), -1)
 
-    cv2.imshow("Global 3D Markers & Trident", frame)
+    cv2.imshow(window_name, frame)
     key = cv2.waitKey(1)
     if key == 27:
         break

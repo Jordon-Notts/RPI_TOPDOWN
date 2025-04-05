@@ -4,6 +4,21 @@ import json
 import os
 from datetime import datetime
 
+# Set the camera index (adjust as needed)
+camera_index = 2
+
+cap = cv2.VideoCapture(camera_index)
+if not cap.isOpened():
+    print("Error: Could not open camera.")
+    exit()
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1820)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+
+# Optionally, force 4K resolution if supported:
+# cap.set(cv2.CAP_PROP_FRAME_WIDTH, 3840)
+# cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 2160)
+
 # ----- Load Camera Calibration Data -----
 with open('camera_calibration_data.json', 'r') as f:
     calib_data = json.load(f)
@@ -47,16 +62,15 @@ def mouse_callback(event, x, y, flags, param):
         image_points_dict[current_label] = (x, y)
         print(f"Set vertex {current_label} at image point ({x}, {y})")
 
-# ----- Setup Video Capture and Window -----
-camera_index = 2  # Adjust camera index as needed
-cap = cv2.VideoCapture(camera_index)
 if not cap.isOpened():
     print("Error: Could not open camera.")
     exit()
 
 window_name = "Cube Calibration Mode"
-cv2.namedWindow(window_name)
+
+cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
 cv2.setMouseCallback(window_name, mouse_callback)
+cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 # ----- Instructions -----
 instructions = (
