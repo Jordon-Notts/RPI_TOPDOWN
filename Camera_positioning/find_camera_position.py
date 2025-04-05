@@ -3,9 +3,7 @@ import numpy as np
 import json
 import os
 
-# Set the camera index (adjust as needed)
 camera_index = 2
-
 cap = cv2.VideoCapture(camera_index)
 if not cap.isOpened():
     print("Error: Could not open camera.")
@@ -38,8 +36,7 @@ aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 aruco_params = cv2.aruco.DetectorParameters()
 
 # Create a full-screen window.
-window_name = "Auto Marker Pose with Cuboid"
-
+window_name = "Auto Marker Pose with Trident"
 cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
 cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
@@ -113,39 +110,9 @@ while True:
                 cv2.putText(frame, yaw_text, (20, frame.shape[0] - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
 
-                # --- Draw a Cuboid centered at the origin ---
-                # Cuboid dimensions: 3650 mm on X and Y, and 500 mm tall.
-                half_width  = 3650.0 / 2.0   # 1825 mm
-                half_depth  = 3650.0 / 2.0   # 1825 mm
-                half_height = 500.0 / 2.0     # 250 mm
-
-                cuboid_vertices = np.array([
-                    [-half_width, -half_depth, -half_height],
-                    [ half_width, -half_depth, -half_height],
-                    [ half_width,  half_depth, -half_height],
-                    [-half_width,  half_depth, -half_height],
-                    [-half_width, -half_depth,  half_height],
-                    [ half_width, -half_depth,  half_height],
-                    [ half_width,  half_depth,  half_height],
-                    [-half_width,  half_depth,  half_height]
-                ], dtype=np.float32)
-
-                cuboid_edges = [
-                    (0,1), (1,2), (2,3), (3,0),  # bottom face
-                    (4,5), (5,6), (6,7), (7,4),  # top face
-                    (0,4), (1,5), (2,6), (3,7)   # vertical edges
-                ]
-
-                imgpts_cuboid, _ = cv2.projectPoints(cuboid_vertices, rvec, tvec, camera_matrix, dist_coeffs)
-                imgpts_cuboid = np.int32(imgpts_cuboid).reshape(-1, 2)
-                for edge in cuboid_edges:
-                    pt1 = tuple(imgpts_cuboid[edge[0]])
-                    pt2 = tuple(imgpts_cuboid[edge[1]])
-                    cv2.line(frame, pt1, pt2, (0, 255, 255), 2)  # Yellow lines
-
     cv2.imshow(window_name, frame)
     key = cv2.waitKey(1) & 0xFF
-    if key == 27:  # Esc to exit.
+    if key == 27:  # Esc key to exit.
         break
 
 cap.release()

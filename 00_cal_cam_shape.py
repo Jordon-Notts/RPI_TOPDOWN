@@ -35,7 +35,7 @@ img_points = []  # 2d points in image plane
 
 # Initialize capture count
 count = 0
-TOTAL_IMAGES = 250  # Total number of good frames to capture
+TOTAL_IMAGES = 100  # Total number of good frames to capture
 
 # Create a full-screen window.
 window_name = "Calibration of camera"
@@ -67,20 +67,29 @@ while count < TOTAL_IMAGES:
         count += 1
         print(f"Captured {count} good checkerboard images.")
 
-    # Overlay feedback text on the image (e.g., "Captured: 12 / 250 images")
+    # Display the image
+    frame = cv2.flip(frame, 1)
+
+        # Overlay feedback text on the image (e.g., "Captured: 12 / 250 images")
     feedback_text = f"Captured: {count} / {TOTAL_IMAGES} images"
     cv2.putText(frame, feedback_text, (10, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
 
-    # Display the image
     cv2.imshow(window_name, frame)
     
     key = cv2.waitKey(200)  # Delay of 0.2 seconds between frames
     if key == 27:  # Press 'Esc' to exit early
         break
 
-cap.release()
-cv2.destroyAllWindows()
+ret, frame = cap.read()
+
+frame = cv2.flip(frame, 1)
+
+feedback_text = f"This will take sometime"
+cv2.putText(frame, feedback_text, (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+cv2.imshow(window_name, frame)
 
 if len(obj_points) >= 100:
 
@@ -99,3 +108,6 @@ if len(obj_points) >= 100:
     print("Camera calibration data saved in 'camera_calibration_data.json'.")
 else:
     print("Insufficient good checkerboard captures. Calibration failed.")
+
+cap.release()
+cv2.destroyAllWindows()
