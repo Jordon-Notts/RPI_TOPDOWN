@@ -107,6 +107,8 @@ marker_size = 232  # adjust as needed
 
 ```
 
+to run the scripts type:
+
 ```bash
 
 bash Run_GPS_Server.sh 
