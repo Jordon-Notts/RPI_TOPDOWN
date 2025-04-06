@@ -137,6 +137,10 @@ while True:
                 euler_angles = rotationMatrixToEulerAngles(R_marker_global)  # Now yaw is global
                 yaw_deg = np.degrees(euler_angles[2])
 
+                # Assume 'yaw' is computed as before.
+                offset = 90  # adjust this value as needed
+                yaw_deg = (yaw_deg - offset) % 360
+
                 yaw_text = f"Yaw: {yaw_deg:.1f} deg"
                 cv2.putText(frame, yaw_text, tuple(np.int32(center + np.array([5,15]))),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255), 2)
