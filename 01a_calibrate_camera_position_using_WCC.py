@@ -8,6 +8,7 @@ from datetime import datetime
 camera_index = 2
 
 cap = cv2.VideoCapture(camera_index)
+
 if not cap.isOpened():
     print("Error: Could not open camera.")
     exit()
@@ -82,6 +83,8 @@ instructions = (
     "       'c': decrease X by 100mm\n"
     "       'y': increase Y by 100mm\n"
     "       'u': decrease Y by 100mm\n"
+    "       'i': increase Z by 100mm\n"
+    "       'k': decrease Z by 100mm\n"
     " - Press 'a' to append current cube to calibration sets.\n"
     " - Press 'p' to compute pose using all appended cubes (+ current unsaved if valid).\n"
     " - Press 's' to save the computed pose and annotated image.\n"
@@ -200,6 +203,12 @@ while True:
     elif key == ord('u'):
         cube_offset[1] -= 100
         print("Cube offset decreased in Y by 100mm")
+    elif key == ord('i'):
+        cube_offset[2] += 100
+        print("Cube offset increased in Z by 100mm")
+    elif key == ord('k'):
+        cube_offset[2] -= 100
+        print("Cube offset decreased in Z by 100mm")
     elif key == ord('a'):
         if len(image_points_dict) < 6:
             print("Not enough points to append. At least 6 needed.")
